@@ -1,0 +1,8 @@
+bin/
+.bundle/
+docker/centos-6/Dockerfile
+docker/centos-7/Dockerfile
+.librarian/
+modules/
+*.swp
+.tmp/

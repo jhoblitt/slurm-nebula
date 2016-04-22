@@ -1,0 +1,45 @@
+FORGE
+  remote: https://forgeapi.puppetlabs.com
+  specs:
+    camptocamp-augeas (1.4.2)
+      puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
+    echocat-nfs (1.8.1)
+      puppetlabs-concat (< 2.0.0, >= 1.1.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.8.0)
+    jfryman-selinux (0.2.6)
+      puppetlabs-stdlib (>= 0)
+    jhoblitt-sysstat (1.1.0)
+    juniorsysadmin-irqbalance (1.0.4)
+      puppetlabs-stdlib (< 5.0.0, >= 3.0.0)
+    puppetlabs-concat (1.2.5)
+      puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
+    puppetlabs-ntp (3.3.0)
+      puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
+    puppetlabs-stdlib (4.11.0)
+    saz-timezone (3.3.0)
+      puppetlabs-stdlib (>= 2.3.0)
+    stahnma-epel (1.2.2)
+      puppetlabs-stdlib (>= 3.0.0)
+    thias-tuned (1.0.3)
+
+GIT
+  remote: https://github.com/jhoblitt/aco-yum_autoupdate.git
+  ref: bugfix/operatingsystemmajrelease-is-a-string
+  sha: bed2c07e369e0a1cfd10a6d1dc91a827c62dc43d
+  specs:
+    aco-yum_autoupdate (0.6.1)
+      puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
+
+DEPENDENCIES
+  aco-yum_autoupdate (>= 0)
+  camptocamp-augeas (~> 1.4)
+  echocat-nfs (~> 1.8.1)
+  jfryman-selinux (~> 0.2.3)
+  jhoblitt-sysstat (~> 1.1)
+  juniorsysadmin-irqbalance (~> 1.0.4)
+  puppetlabs-ntp (~> 3.3.0)
+  puppetlabs-stdlib (>= 0)
+  saz-timezone (~> 3.3.0)
+  stahnma-epel (~> 1.1)
+  thias-tuned (~> 1.0.2)
+

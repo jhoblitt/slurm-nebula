@@ -1,0 +1,43 @@
+{
+  "builders":[
+    {
+      "name": "openstack-centos-7",
+      "type": "openstack",
+      "ssh_username": "vagrant",
+      "image_name": "centos-7-slurm-{{user `build_timestamp`}}",
+      "source_image": "{{user `source_image`}}",
+      "use_floating_ip": true,
+      "floating_ip_pool": "ext-net",
+      "security_groups": ["default", "remote SSH"],
+      "networks": ["fc77a88d-a9fb-47bb-a65d-39d1be7a7174"],
+      "flavor": "m4.large"
+    }
+  ],
+  "provisioners":[
+    {
+      "type": "shell",
+      "inline": [
+        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
+      ]
+    },
+    {
+      "type": "puppet-masterless",
+       "manifest_file": "manifests/default.pp",
+       "module_paths": ["./modules"],
+       "facter": {
+          "slurm_node_type": "ctrl"
+        }
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/cleanup.sh"
+      ]
+    }
+  ],
+  "variables": {
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "source_image": ""
+  }
+}
