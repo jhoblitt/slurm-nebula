@@ -46,6 +46,13 @@ If you want to ssh into any of the slave nodes, you'll ned to do something like
     ssh-add id_rsa
     ssh -A -l vagrant 141.142.211.82
 
+Cleanup
+---
+
+**This will destroy all data**
+
+    ./bin/terraform destroy --force
+
 XXX Document Me
 ---
 
