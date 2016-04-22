@@ -2,12 +2,12 @@ provider "openstack" {
 }
 
 resource "openstack_networking_network_v2" "network_1" {
-  name = "tf_test_network"
+  name = "slurm_network"
   admin_state_up = "true"
 }
 
 resource "openstack_networking_subnet_v2" "subnet_1" {
-  name = "tf_test_subnet"
+  name = "slurm_subnet"
   network_id = "${openstack_networking_network_v2.network_1.id}"
   cidr = "192.168.52.0/24"
   gateway_ip = "192.168.52.1"
@@ -16,7 +16,7 @@ resource "openstack_networking_subnet_v2" "subnet_1" {
 }
 
 resource "openstack_networking_router_v2" "router_1" {
-  name = "tf_test_router"
+  name = "slurm_router"
   admin_state_up = "true"
   external_gateway = "bef0fe11-1646-4826-9776-3afdf95e53b9"
 }
@@ -76,10 +76,10 @@ resource "openstack_compute_floatingip_v2" "floatip_1" {
   pool = "ext-net"
 }
 
-resource "openstack_compute_instance_v2" "test-ctrl" {
+# XXX convert node resources to templates
+resource "openstack_compute_instance_v2" "ctrl" {
   name = "slurm-ctrl"
-  #image_id = "0f1963d5-e9f3-464f-a4e4-308d83b47b76"
-  flavor_id = "2a912855-769a-43ff-b4a2-e12cef4c2e9d"
+  flavor_id = "${var.flavor_id}"
   user_data = <<EOT
   #cloud-config
   write_files:
@@ -110,10 +110,9 @@ resource "openstack_compute_instance_v2" "test-ctrl" {
       "${openstack_compute_secgroup_v2.internal.name}"
   ]
   block_device {
-    #uuid = "0f1963d5-e9f3-464f-a4e4-308d83b47b76"
-    uuid = "7364ada7-263e-4fb0-a9f4-219ab19e0be0"
+    uuid = "${var.image_id}"
     source_type = "image"
-    volume_size = 50
+    volume_size = "${var.scratch_size}"
     destination_type = "volume"
     delete_on_termination = true
   }
@@ -131,13 +130,12 @@ resource "openstack_compute_instance_v2" "test-ctrl" {
   */
 }
 
-resource "openstack_compute_instance_v2" "test-slave" {
-  count = 3
+resource "openstack_compute_instance_v2" "slave" {
+  count = "${var.num_slaves}"
   # index hostnames from 1
   name = "slurm-slave${count.index + 1}"
-  #image_id = "0f1963d5-e9f3-464f-a4e4-308d83b47b76"
-  image_id = "7364ada7-263e-4fb0-a9f4-219ab19e0be0"
-  flavor_id = "2a912855-769a-43ff-b4a2-e12cef4c2e9d"
+  image_id = "${var.image_id}"
+  flavor_id = "${var.flavor_id}"
   user_data = <<EOT
   #cloud-config
   write_files:
@@ -184,4 +182,3 @@ resource "null_resource" "munge-key" {
     command = "dd if=/dev/random bs=1 count=1024 > munge.key"
   }
 }
-
