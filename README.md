@@ -9,12 +9,14 @@ Trivial end-user instructions
 * invoke terraform
 * ssh into slurm ctrl/bastion node
 
-    git clone https://github.com/jhoblitt/slurm-nebula
-    cd slurm-nebula/terraform
-    make
-    ./bin/terraform apply
+```sh
+git clone https://github.com/jhoblitt/slurm-nebula
+cd slurm-nebula/terraform
+make
+./bin/terraform apply
 
-    <lots of output>
+<lots of output>
+```
 
 Wait for output similar to:
 
