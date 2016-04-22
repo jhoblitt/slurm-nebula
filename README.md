@@ -4,12 +4,14 @@ Slurm on Nebula
 Trivial end-user instructions
 ---
 
+* setup OpenStack/Nebula env vars
 * clone this repo
 * run the terraform makefile to install tf locally
 * invoke terraform
 * ssh into slurm ctrl/bastion node
 
 ```sh
+. LSST-openrc.sh
 git clone https://github.com/jhoblitt/slurm-nebula
 cd slurm-nebula/terraform
 make
