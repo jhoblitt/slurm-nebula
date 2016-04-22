@@ -94,12 +94,11 @@ resource "openstack_compute_instance_v2" "ctrl" {
       encoding: b64
       content: "${base64encode(file("slurm.conf"))}"
   EOT
-  depends_on = [ "null_resource.munge-key" ]
 
   metadata {
     slurm_node_type = "ctrl"
   }
-  key_pair = "github"
+  key_pair = "${openstack_compute_keypair_v2.slurm.name}"
   network {
     uuid = "${openstack_networking_network_v2.network_1.id}"
     floating_ip = "${openstack_compute_floatingip_v2.floatip_1.address}"
@@ -150,12 +149,11 @@ resource "openstack_compute_instance_v2" "slave" {
       encoding: b64
       content: "${base64encode(file("slurm.conf"))}"
   EOT
-  depends_on = [ "null_resource.munge-key" ]
 
   metadata {
     slurm_node_type = "slave"
   }
-  key_pair = "github"
+  key_pair = "${openstack_compute_keypair_v2.slurm.name}"
   network {
     uuid = "${openstack_networking_network_v2.network_1.id}"
     fixed_ip_v4 = "192.168.52.${count.index + 10 + 1}"
@@ -177,8 +175,9 @@ resource "openstack_compute_instance_v2" "slave" {
   */
 }
 
-resource "null_resource" "munge-key" {
-  provisioner "local-exec" {
-    command = "dd if=/dev/random bs=1 count=1024 > munge.key"
-  }
+resource "openstack_compute_keypair_v2" "slurm" {
+  name = "slurm"
+  # XXX this doesn't work with a null resource as file() is checking for
+  # existing before applying :(
+  public_key = "${file("id_rsa.pub")}"
 }
