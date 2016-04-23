@@ -110,45 +110,13 @@ host { 'slurm-ctrl':
   ensure => 'present',
   ip     => '192.168.52.10',
 }
-host { 'slurm-slave1':
-  ensure => 'present',
-  ip     => '192.168.52.11',
-}
-host { 'slurm-slave2':
-  ensure => 'present',
-  ip     => '192.168.52.12',
-}
-host { 'slurm-slave3':
-  ensure => 'present',
-  ip     => '192.168.52.13',
-}
-host { 'slurm-slave4':
-  ensure => 'present',
-  ip     => '192.168.52.14',
-}
-host { 'slurm-slave5':
-  ensure => 'present',
-  ip     => '192.168.52.15',
-}
-host { 'slurm-slave6':
-  ensure => 'present',
-  ip     => '192.168.52.16',
-}
-host { 'slurm-slave7':
-  ensure => 'present',
-  ip     => '192.168.52.17',
-}
-host { 'slurm-slave8':
-  ensure => 'present',
-  ip     => '192.168.52.18',
-}
-host { 'slurm-slave9':
-  ensure => 'present',
-  ip     => '192.168.52.19',
-}
-host { 'slurm-slave10':
-  ensure => 'present',
-  ip     => '192.168.52.20',
+
+range(1, 200).each |$n| {
+  $octet = $n + 10
+  host { "slurm-slave${n}":
+    ensure => 'present',
+    ip     => "192.168.52.${octet}",
+  }
 }
 
 # XXX currently we are punting on this and using the same image for all nodes.
