@@ -173,4 +173,5 @@ nfs::client::mount { 'scratch0':
   mount    => '/mnt/scratch0',
   remounts => true,
   atboot   => true,
+  options  => 'user,noauto,x-systemd.automount', # systemd only
 }
