@@ -1,7 +1,7 @@
 all: $(BIN_DIR) id_rsa id_rsa.pub munge.key
 
 BIN_DIR=./bin
-TF_VERSION=0.6.14
+TF_VERSION=0.6.15
 ZIP_FILE=terraform_$(TF_VERSION)_linux_amd64.zip
 
 $(BIN_DIR):
