@@ -17,7 +17,7 @@
     {
       "type": "shell",
       "inline": [
-        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
+        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet_agent.sh | sudo sh"
       ]
     },
     {
