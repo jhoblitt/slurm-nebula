@@ -60,6 +60,13 @@ package {[
   require => Yumrepo['slurm'],
 }
 
+# end user convenience packages
+package {[
+  'emacs',
+]:
+  ensure  => latest,
+}
+
 
 # munge may try to startup before cloud-init has run and injected munge.key
 # mangle its unit file so that it requires cloud-config.target
