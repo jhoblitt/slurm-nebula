@@ -2,21 +2,22 @@ provider "openstack" {
 }
 
 resource "openstack_networking_network_v2" "network_1" {
-  name = "slurm_network"
+  name = "${var.prefix}-slurm_network"
   admin_state_up = "true"
 }
 
 resource "openstack_networking_subnet_v2" "subnet_1" {
-  name = "slurm_subnet"
+  name = "${var.prefix}-slurm_subnet"
   network_id = "${openstack_networking_network_v2.network_1.id}"
   cidr = "192.168.52.0/24"
   gateway_ip = "192.168.52.1"
+  enable_dhcp = true
   ip_version = 4
   dns_nameservers = ["141.142.2.2", "141.142.230.144"]
 }
 
 resource "openstack_networking_router_v2" "router_1" {
-  name = "slurm_router"
+  name = "${var.prefix}-slurm_router"
   admin_state_up = "true"
   external_gateway = "bef0fe11-1646-4826-9776-3afdf95e53b9"
 }
@@ -27,7 +28,7 @@ resource "openstack_networking_router_interface_v2" "router_interface_1" {
 }
 
 resource "openstack_compute_secgroup_v2" "bastion" {
-  name = "slurm_bastion"
+  name = "${var.prefix}-slurm_bastion"
   description = "slurm ctrl/bastion"
 
   rule {
@@ -45,7 +46,7 @@ resource "openstack_compute_secgroup_v2" "bastion" {
 }
 
 resource "openstack_compute_secgroup_v2" "internal" {
-  name = "slurm_internal"
+  name = "${var.prefix}-slurm_internal"
   description = "slurm internal traffic"
 
   rule {
@@ -176,7 +177,7 @@ resource "openstack_compute_instance_v2" "slave" {
 }
 
 resource "openstack_compute_keypair_v2" "slurm" {
-  name = "slurm"
+  name = "${var.prefix}-slurm"
   # XXX this doesn't work with a null resource as file() is checking for
   # existing before applying :(
   public_key = "${file("id_rsa.pub")}"

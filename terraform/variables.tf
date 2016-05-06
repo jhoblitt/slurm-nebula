@@ -17,3 +17,7 @@ variable "num_slaves" {
     description = "number of slurm slave nodes"
     default = "3"
 }
+
+variable "prefix" {
+    description = "name prefix to avoid ambiguous openstack resources"
+}

@@ -57,6 +57,11 @@ Cleanup
 
     ./bin/terraform destroy --force
 
+Known problms
+---
+
+* https://github.com/hashicorp/terraform/issues/6317
+
 XXX Document Me
 ---
 
